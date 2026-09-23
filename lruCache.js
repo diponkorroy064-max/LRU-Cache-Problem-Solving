@@ -1,25 +1,24 @@
+//======================================
+// LRU Cache / Problem Solving---
+//======================================
+
 class LRUCache {
-    /**
-     * @param {number} capacity
-     */
+    //  capacity---
     constructor(capacity) {
         if (capacity <= 0) {
             throw new Error("Capacity must be a positive integer");
         }
         this.capacity = capacity;
-        this.cache = new Map(); // Maintains key insertion/update order
+        this.cache = new Map();
     }
 
-    /**
-     * @param {string|number} key
-     * @returns {any} value or -1 if not found
-     */
+    // -1 if not found--
     get(key) {
         if (!this.cache.has(key)) {
             return -1;
         }
 
-        // Access করা আইটেমকে বের করে আবার সেট করছি যেন এটি Most Recently Used হয়ে যায়
+        // Delete item and set item---
         const value = this.cache.get(key);
         this.cache.delete(key);
         this.cache.set(key, value);
@@ -27,29 +26,25 @@ class LRUCache {
         return value;
     }
 
-    /**
-     * @param {string|number} key
-     * @param {any} value
-     */
+    // Put value---
     put(key, value) {
-        // যদি কি (key) আগে থেকেই থাকে, ডিলিট করে রি-ইনসার্ট করব (সতেজ করার জন্য)
+        // delete previous key---
         if (this.cache.has(key)) {
             this.cache.delete(key);
         }
-        // যদি নতুন কি হয় এবং ক্যাপাসিটি ফুল থাকে, তবে সবচেয়ে পুরনো (LRU) টি রিমুভ করব
+
+        // Delete least Recently Used Key(LRU)---
         else if (this.cache.size >= this.capacity) {
             const leastRecentlyUsedKey = this.cache.keys().next().value;
-            console.log(`[EVICTION] Cache limit reached (${this.capacity}). Removing LRU key: "${leastRecentlyUsedKey}"`);
+            console.log(`Cache limit reached (${this.capacity}). Removing LRU key: "${leastRecentlyUsedKey}"`);
             this.cache.delete(leastRecentlyUsedKey);
         }
 
-        // নতুন কি/ভ্যালু ইনসার্ট
+        // insert new value---
         this.cache.set(key, value);
     }
 
-    /**
-     * Helper method to visualize current cache status
-     */
+    // Display Output---
     display() {
         const items = Array.from(this.cache.entries())
             .map(([k, v]) => `${k}:${v}`)
@@ -58,31 +53,35 @@ class LRUCache {
     }
 }
 
-// ==========================================
-// Test Demonstration (Output Check)
-// ==========================================
-console.log("=== LRU Cache Demo Starting ===\n");
+// Output Check----> console---
+console.log("LRU Cache Demo");
 
-const cache = new LRUCache(2);
+const cache = new LRUCache(3);
 
-console.log('1. put("A", 10)');
-cache.put("A", 10);
+console.log('put A = 100');
+cache.put("A", 100);
 cache.display();
 
-console.log('\n2. put("B", 20)');
-cache.put("B", 20);
+console.log('put B = 200');
+cache.put("B", 200);
 cache.display();
 
-console.log('\n3. get("A") ->', cache.get("A")); // A becomes MRU
+console.log('put C = 300');
+cache.put("C", 300);
 cache.display();
 
-console.log('\n4. put("C", 30) -> Triggers Eviction (B should be removed)');
-cache.put("C", 30);
+console.log('get = A');
+cache.get("A");
 cache.display();
 
-console.log('\n5. get("B") ->', cache.get("B")); // Expected: -1 (evicted)
-console.log('6. get("C") ->', cache.get("C"));   // Expected: 30
-console.log('7. get("A") ->', cache.get("A"));   // Expected: 10
+console.log('put D = 1000000');
+cache.put("D", 1000000);
+cache.display();
 
-console.log("\n=== Demo Complete ===");
+console.log('get A ->', cache.get("A"));
+console.log('get B ->', cache.get("B"));
+console.log('get C ->', cache.get("C"));
+console.log('get D ->', cache.get("D"));
+
+console.log("Demo Complete");
 
