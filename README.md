@@ -22,6 +22,7 @@ In JavaScript, a `Map` remembers the original insertion order of the keys.
 1. Make sure you have [Node.js](https://nodejs.org/) installed on your machine.
 2. Clone this repository:
    ```bash
-   git clone <YOUR_REPOSITORY_URL>
-   cd <YOUR_REPOSITORY_FOLDER>
+   git clone https://github.com/diponkorroy064-max/LRU-Cache-Problem-Solving
+   cd LRU Cache-Problem Solving
+   
    
